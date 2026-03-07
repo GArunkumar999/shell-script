@@ -1,0 +1,285 @@
+Here are the **industry best practices with explanations** 👇
+
+---
+
+# ✅ 1. Use UPPERCASE for Environment & Constants
+
+### Standard Practice:
+
+```bash
+APP_NAME="payment-service"
+AWS_REGION="us-east-1"
+MAX_RETRIES=3
+```
+
+### Why?
+
+* UPPERCASE is convention for:
+
+  * Environment variables
+  * Global variables
+  * Constants
+* Matches system variables like:
+
+  ```bash
+  $HOME
+  $PATH
+  $USER
+  ```
+
+---
+
+# ✅ 2. Use lowercase for Local Variables (Inside Functions)
+
+```bash
+deploy_app() {
+  local container_id
+  local image_name
+}
+```
+
+### Why?
+
+* Prevents confusion with environment variables
+* Makes scope clear
+* Cleaner code structure
+
+💡 Rule:
+**Global → UPPERCASE**
+**Local → lowercase**
+
+---
+
+# ✅ 3. Use Descriptive & Meaningful Names
+
+❌ Bad:
+
+```bash
+x=prod
+a=10
+```
+
+✅ Good:
+
+```bash
+ENVIRONMENT="production"
+RETRY_COUNT=10
+```
+
+### Why?
+
+Shell scripts grow over time. Clear names reduce debugging time.
+
+---
+
+# ✅ 4. Use Snake Case (Recommended Style)
+
+```bash
+DB_HOST="localhost"
+backup_file_path="/var/backups/app"
+```
+
+### Why?
+
+* Improves readability
+* Standard Bash style
+* Avoids confusion with camelCase
+
+Avoid:
+
+```bash
+dbHost
+backupFilePath
+```
+
+---
+
+# ✅ 5. Avoid Reserved & Built-in Names
+
+❌ Never use:
+
+```bash
+PATH="something"
+HOME="dir"
+IFS=","
+```
+
+### Why?
+
+These are system variables. Overriding them can break your script.
+
+Always check:
+
+```bash
+env | grep VARIABLE_NAME
+```
+
+---
+
+# ✅ 6. Prefix Variables for Large Scripts
+
+In bigger DevOps scripts:
+
+```bash
+APP_DB_HOST
+APP_DB_USER
+APP_DB_PASSWORD
+```
+
+### Why?
+
+* Avoid naming conflicts
+* Clear grouping
+* Easier to search
+
+Very useful in:
+
+* Kubernetes deployment scripts
+* CI/CD automation
+
+---
+
+# ✅ 7. Avoid Single Character Names (Except Loops)
+
+❌ Bad:
+
+```bash
+p="prod"
+```
+
+✅ Good:
+
+```bash
+DEPLOY_ENV="prod"
+```
+
+✔ Acceptable in loops:
+
+```bash
+for i in {1..5}; do
+```
+
+---
+
+# ✅ 8. Do Not Start with Numbers
+
+❌ Invalid:
+
+```bash
+1VAR="test"
+```
+
+✔ Valid:
+
+```bash
+VAR1="test"
+```
+
+---
+
+# ✅ 9. Avoid Special Characters
+
+❌ Wrong:
+
+```bash
+DB-HOST="localhost"
+user.name="admin"
+```
+
+✔ Correct:
+
+```bash
+DB_HOST="localhost"
+USER_NAME="admin"
+```
+
+Allowed characters:
+
+* Letters (A-Z, a-z)
+* Numbers
+* Underscore `_`
+
+---
+
+# ✅ 10. Use Readonly for Constants
+
+```bash
+readonly SCRIPT_NAME=$(basename "$0")
+readonly DEFAULT_REGION="us-east-1"
+```
+
+### Why?
+
+Prevents accidental modification.
+
+---
+
+# ✅ 11. Use Clear Naming for Boolean Variables
+
+```bash
+IS_PRODUCTION=true
+ENABLE_LOGGING=false
+```
+
+### Why?
+
+Improves clarity in conditions:
+
+```bash
+if [[ "$IS_PRODUCTION" == true ]]; then
+```
+
+---
+
+# ✅ 12. Follow Consistency
+
+Don’t mix styles like:
+
+```bash
+appName
+APP_region
+DbHost
+```
+
+Choose one convention and stick to it.
+
+---
+
+# 🚀 Production-Grade Naming Example
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+readonly SCRIPT_NAME=$(basename "$0")
+readonly DEFAULT_REGION="us-east-1"
+
+DEPLOY_ENV="${1:-dev}"
+AWS_REGION="${AWS_REGION:-$DEFAULT_REGION}"
+MAX_RETRY_COUNT=3
+
+deploy_application() {
+  local container_id
+  local image_tag
+}
+```
+
+Clean. Maintainable. Professional.
+
+---
+
+# 🎯 DevOps Interview Answer Structure
+
+If asked:
+
+> “What are naming conventions for variables in shell scripts?”
+
+Answer like this:
+
+1. Use UPPERCASE for globals and environment variables
+2. Use lowercase for local variables
+3. Follow snake_case
+4. Avoid reserved names
+5. Use meaningful descriptive names
+6. Prefix variables in large scripts
+7. Use readonly for constants

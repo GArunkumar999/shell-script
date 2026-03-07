@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Exit the script immediately if any command fails
+# Helps avoid unexpected behavior in automation scripts
+set -e
+
+# Prompt the user to enter a file or directory name
+read -p "Enter name of file or directory: " name
+
+# Check if the given path exists (file, directory, symlink, etc.)
+# -e returns true if the path exists (any type)
+if [ -e "$name" ]; then
+   echo "$name exists"
+else
+   echo "$name doesn't exist"
+fi
+
